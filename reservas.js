@@ -6,8 +6,12 @@ function listarReservas(eventId) {
            return response.json();
         })
         .then(data => {
-            preencheTitulo(data[0].event);
-            preencheReserva(data);
+            if (data.length === 0) {
+                preencherReservaVazia();
+            } else {
+                preencherTitulo(data[0].event);
+                preencherReserva(data);
+            }
         })
         .catch(error => {
             console.error("Requisição falhou com o error: " + error);
@@ -17,7 +21,7 @@ function listarReservas(eventId) {
 }
 
 
-function preencheReserva(data){
+function preencherReserva(data){
     let localReserva = document.getElementsByTagName("tbody")[0];
     console.log(data);
     data.forEach(reserva => { 
@@ -32,7 +36,16 @@ function preencheReserva(data){
     console.log(localReserva);
 }
 
-function preencheTitulo(evento){
+function preencherReservaVazia(){
+    let localReservaVazia = document.getElementsByTagName("tbody")[0];
+    localReservaVazia.innerHTML = ` <tr>
+    <td>Sem reserva para esse evento</td>
+    <td> - </td>
+    <td> - </td>
+</tr>`;
+}
+
+function preencherTitulo(evento){
     let localTitulo = document.querySelector(".my-5 > h2")
     localTitulo.textContent = ` Reservas do evento: ${evento.name}.`
 }
