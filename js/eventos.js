@@ -1,22 +1,21 @@
-const article = document.querySelector('section > .container:nth-of-type(2)');
-const endpoint = 'https://soundgarden-api.vercel.app/events';
-
 
 function listEvents() {
     let endpoint = 'https://soundgarden-api.vercel.app/events'
     fetch(endpoint, { redirect: 'follow' })
-        .then(res => {
-            return res.json();
-        })
-        .then(data => fillArticles(data))
-        .catch(error => console.log(error))
-
+    .then(res => {
+        return res.json();
+    })
+    .then(data => fillArticles(data))
+    .catch(error => console.log(error))
+    
 }
 
 
 function fillArticles(data) {
+    const articlesContainer = document.querySelector('section > .container:nth-of-type(2)');
+
     data.forEach(listedEvent => {
-        article.innerHTML +=
+        articlesContainer.innerHTML +=
             `<article class="evento card p-5 m-3">
                 <img src="${listedEvent.poster}">
                 <h2>${listedEvent.name} - 05/03/2022</h2>
