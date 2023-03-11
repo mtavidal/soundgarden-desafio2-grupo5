@@ -52,7 +52,10 @@ formEl.addEventListener('submit', event => {
         body: JSON.stringify(data),
         redirect: 'follow'
     })
-        .then(res => res.json())
+        .then(res => {
+            res.json();
+            alert("Evento inserido com sucesso!");
+        })
         .then(data => console.log(data))
         .catch(error => console.log(error));
 
