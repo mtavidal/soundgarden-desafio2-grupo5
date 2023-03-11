@@ -1,4 +1,3 @@
-
 function listEvents() {
     let endpoint = 'https://soundgarden-api.vercel.app/events'
     fetch(endpoint, { redirect: 'follow' })
@@ -11,12 +10,10 @@ function listEvents() {
 }
 
 function fillArticles(data) {
-    const articlesContainer = document.querySelector('section > .container:nth-of-type(2)');
-
-    data.forEach(listedEvent => {
+    const articlesContainer = document.querySelector('#lista3eventos');
+    data.slice(0,3).forEach(listedEvent => {
         articlesContainer.innerHTML +=
             `<article class="evento card p-5 m-3">
-                <img src="${listedEvent.poster}">
                 <h2>${listedEvent.name} - 05/03/2022</h2>
                 <h4>${listedEvent.attractions.join(', ')}</h4>
                 <p>${listedEvent.description}</p>
