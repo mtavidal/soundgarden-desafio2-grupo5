@@ -1,26 +1,49 @@
 const formEl = document.getElementsByTagName('form')[0];
 
+function toISO8601(dateString) {
+    let dateParts = dateString.split(' '),
+        date = dateParts[0],
+        time = dateParts[1];
+
+    let dateFormatted = date.split('/').reverse().join('-');
+    let timeFormatted = time + ':00';
+
+    return '20' + dateFormatted + 'T' + timeFormatted + 'Z';
+}
+
+function splitAttractions(attractions) {
+    let attractionsList = attractions.split(',');
+
+    attractionsList.forEach(function (attraction, index, array) {
+        array[index] = attraction.trim();
+    });
+
+    return attractionsList;
+}
+
+
 formEl.addEventListener('submit', event => {
     event.preventDefault();
+    const endpoint = "https://soundgarden-api.vercel.app/events";
 
     // const formData = new FormData(formEl);
     // const data = new URLSearchParams(formData);
-    
-    // const data = `{\r\n    \"name\": \"Evento teste 2\",\r\n    \"poster\": \"link da imagem\",\r\n    \"attractions\": [\r\n        \"Cantor 1\"\r\n    ],\r\n    \"description\": \"Evento incrivel\",\r\n    \"scheduled\": \"2022-03-24T00:57:37.761Z\",\r\n    \"number_tickets\": 10\r\n}`
+
+    const date = document.getElementById("data").value;
+    const isoDate = toISO8601(date);
+
+    let attractions = document.getElementById("atracoes").value;
+    let attractionsList = splitAttractions(attractions);
 
     const data = {
-        "name": "Evento teste 99",
-        "poster": "link da imagem",
-        "attractions": [
-            "Cantor 1"
-        ],
-        "description": "Evento incrivel",
-        "scheduled": "2022-03-24T00:57:37.761Z",
-        "number_tickets": 10
-    }
-    
-    const endpoint = "https://soundgarden-api.vercel.app/events";
-    
+        "name": document.getElementById("nome").value,
+        "poster": "https://media.discordapp.net/attachments/1084089420199755928/1084144639889658027/fiesta.png",
+        "attractions": attractionsList,
+        "description": document.getElementById("descricao").value,
+        "scheduled": isoDate,
+        "number_tickets": document.getElementById("lotacao").value
+    };
+
     fetch(endpoint, {
         method: 'POST',
         headers: {
@@ -29,41 +52,9 @@ formEl.addEventListener('submit', event => {
         body: JSON.stringify(data),
         redirect: 'follow'
     })
-    .then(res => res.json())
-    .then(data => console.log(data))
-    .catch(error => console.log(error));
+        .then(res => res.json())
+        .then(data => console.log(data))
+        .catch(error => console.log(error));
 
     console.log(JSON.stringify(data))
 });
-
-// var raw = "{\r\n    \"name\": \"Evento teste 2\",\r\n    \"poster\": \"link da imagem\",\r\n    \"attractions\": [\r\n        \"Cantor 1\"\r\n    ],\r\n    \"description\": \"Evento incrivel\",\r\n    \"scheduled\": \"2022-03-24T00:57:37.761Z\",\r\n    \"number_tickets\": 10\r\n}";
-
-// var requestOptions = {
-//   method: 'POST',
-//   body: raw,
-//   redirect: 'follow'
-// };
-
-// fetch("https://soundgarden-api.vercel.app//events", requestOptions)
-//   .then(response => response.text())
-//   .then(result => console.log(result))
-//   .catch(error => console.log('error', error));
-        
-        
-        // const data = {
-            //     "name": document.getElementById("nome").value,
-            //     "poster": "link da imagem",
-            //     "attractions": ["Bob Marley"],
-            //     "description": document.getElementById("descricao").value,
-            //     "scheduled": document.getElementById("data").value,
-            //     "number_tickets": document.getElementById("lotacao").value
-            // };
-
-
-            // const options = {
-            //     method: 'POST',
-            //     body: JSON.stringify(data),
-            //     headers: {
-            //         'Content-Type': 'application/json'
-            //     }
-            // };
