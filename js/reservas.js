@@ -1,4 +1,9 @@
 
+const url_string = window.location.href;
+const url = new URL(url_string);
+const data = url.searchParams.get("eventId");
+const nomeEvento = url.searchParams.get("eventName");
+
 function listarReservas(eventId) {
     let endpoint = `https://soundgarden-api.vercel.app/bookings/event/${eventId}`
     fetch(endpoint)
@@ -6,8 +11,12 @@ function listarReservas(eventId) {
            return response.json();
         })
         .then(data => {
-            preencheTitulo(data[0].event);
-            preencheReserva(data);
+            if (data.length === 0) {
+                preencherReservaVazia();
+            } else {
+                preencherReserva(data);
+            }
+            preencherTitulo(nomeEvento);
         })
         .catch(error => {
             console.error("Requisição falhou com o error: " + error);
@@ -17,7 +26,7 @@ function listarReservas(eventId) {
 }
 
 
-function preencheReserva(data){
+function preencherReserva(data){
     let localReserva = document.getElementsByTagName("tbody")[0];
     console.log(data);
     data.forEach(reserva => { 
@@ -32,15 +41,22 @@ function preencheReserva(data){
     console.log(localReserva);
 }
 
-function preencheTitulo(evento){
-    let localTitulo = document.querySelector(".my-5 > h2")
-    localTitulo.textContent = ` Reservas do evento: ${evento.name}.`
+function preencherReservaVazia(){
+    let localReservaVazia = document.getElementsByTagName("tbody")[0];
+    localReservaVazia.innerHTML = ` <tr>
+    <td>Sem reserva para esse evento</td>
+    <td> - </td>
+    <td> - </td>
+    </tr>`;
 }
 
-const url_string = window.location.href;
-const url = new URL(url_string);
-const data = url.searchParams.get("eventId");
+function preencherTitulo(evento){
+    let localTitulo = document.querySelector(".my-5 > h2")
+    localTitulo.textContent = ` Reservas do evento: ${evento}.`
+}
 
 listarReservas(data);
+
+
 
 
