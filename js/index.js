@@ -57,6 +57,12 @@ formModal.addEventListener('submit', event => {
         redirect: 'follow'
     })
         .then(res => {
+            if (!res.ok) {
+                let err = new Error("HTTP status code: " + res.status);
+                err.response = res;
+                err.status = res.status;
+                throw err;
+            }
             return res.json();
         })
         .then(data => {
@@ -65,7 +71,10 @@ formModal.addEventListener('submit', event => {
             formModal.reset();
 
         })
-        .catch(error => console.log(error));
+        .catch(error => {
+            alert("Falha ao cadastrar reserva! Verifique seus dados.")
+            console.log(error);
+        });
 });
 
 listEvents();
