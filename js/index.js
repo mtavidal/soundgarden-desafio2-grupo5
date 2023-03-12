@@ -1,19 +1,20 @@
 function listEvents() {
     let endpoint = 'https://soundgarden-api.vercel.app/events'
     fetch(endpoint, { redirect: 'follow' })
-    .then(res => {
-        return res.json();
-    })
-    .then(data => fillArticles(data))
-    .catch(error => console.log(error))
-    
+        .then(res => {
+            return res.json();
+        })
+        .then(data => fillArticles(data))
+        .catch(error => console.log(error))
+
 }
 
 function fillArticles(data) {
     const articlesContainer = document.querySelector('#lista3eventos');
-    data.slice(0,3).forEach(listedEvent => {
+    data.slice(0, 3).forEach(listedEvent => {
         articlesContainer.innerHTML +=
             `<article class="evento card p-5 m-3">
+                <img src="${listedEvent.poster}">
                 <h2>${listedEvent.name} - 05/03/2022</h2>
                 <h4>${listedEvent.attractions.join(', ')}</h4>
                 <p>${listedEvent.description}</p>
@@ -44,7 +45,7 @@ formModal.addEventListener('submit', event => {
         "event_id": document.getElementById("eventoId").value,
         "owner_name": document.getElementById("nome").value,
         "owner_email": document.getElementById("email").value,
-        "number_tickets":  document.getElementById("tickets").value
+        "number_tickets": document.getElementById("tickets").value
     };
 
     fetch(endpoint, {
@@ -55,16 +56,16 @@ formModal.addEventListener('submit', event => {
         body: JSON.stringify(data),
         redirect: 'follow'
     })
-    .then(res => {
-        return res.json();
-    })
-    .then(data => {
-        alert("Reserva realizada com sucesso! ID reserva: " + data._id +".");
-        $('#modalReserva').modal("hide");
-        formModal.reset();
+        .then(res => {
+            return res.json();
+        })
+        .then(data => {
+            alert("Reserva realizada com sucesso! ID reserva: " + data._id + ".");
+            $('#modalReserva').modal("hide");
+            formModal.reset();
 
-    })
-    .catch(error => console.log(error));
+        })
+        .catch(error => console.log(error));
 });
 
 listEvents();
