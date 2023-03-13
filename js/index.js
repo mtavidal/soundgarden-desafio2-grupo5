@@ -1,3 +1,8 @@
+function toLocDate(isoDate) {
+    const date = new Date(isoDate);
+    return date.toLocaleDateString('pt-BR');
+}
+
 function listEvents() {
     let endpoint = 'https://soundgarden-api.vercel.app/events'
     fetch(endpoint, { redirect: 'follow' })
@@ -15,7 +20,7 @@ function fillArticles(data) {
         articlesContainer.innerHTML +=
             `<article class="evento card p-5 m-3">
                 <img src="${listedEvent.poster}">
-                <h2>${listedEvent.name} - 05/03/2022</h2>
+                <h2>${listedEvent.name} - ${toLocDate(listedEvent.scheduled)}</h2>
                 <h4>${listedEvent.attractions.join(', ')}</h4>
                 <p>${listedEvent.description}</p>
                 <a class="btn btn-primary btn-modal-reserva" evento="${listedEvent.name}" eventoId="${listedEvent._id}"  >reservar ingresso</a>
