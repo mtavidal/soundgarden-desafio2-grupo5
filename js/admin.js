@@ -15,11 +15,10 @@ function listarEventosPainel() {
 
 function preencherListaEventos(data) {
     let localListaEvento = document.getElementsByTagName("tbody")[0];
-    let cont = 0;
     data.forEach(evento => { 
         localListaEvento.innerHTML += `
         <tr>
-            <th scope="row">${++cont}</th>
+            <th scope="row">${evento._id}</th>
             <td>${formataData(evento.scheduled)}</td>
             <td>${evento.name}</td>
             <td>${evento.attractions}</td>
