@@ -21,7 +21,7 @@ function preencherListaEventos(data) {
             <th scope="row">${evento._id}</th>
             <td>${formataData(evento.scheduled)}</td>
             <td>${evento.name}</td>
-            <td>${evento.attractions}</td>
+            <td>${evento.attractions.join(', ')}</td>
             <td>
                 <a href="reservas.html?eventId=${evento._id}&eventName=${evento.name}" class="btn btn-dark">ver reservas</a>
                 <a href="editar-evento.html?eventId=${evento._id}" class="btn btn-secondary">editar</a>
