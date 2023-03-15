@@ -16,9 +16,9 @@ function listEvents() {
 
 function fillArticles(data) {
     const articlesContainer = document.querySelector('#lista3eventos');
-    data.slice(0, 3).forEach(listedEvent => {
+    data.slice(0, 6).forEach(listedEvent => {
         articlesContainer.innerHTML +=
-            `<article class="evento card p-5 m-3">
+            `<article class="evento card p-5 m-3 cardEvento">
                 <img src="${listedEvent.poster}">
                 <h2>${listedEvent.name} - ${toLocDate(listedEvent.scheduled)}</h2>
                 <h4>${listedEvent.attractions.join(', ')}</h4>
