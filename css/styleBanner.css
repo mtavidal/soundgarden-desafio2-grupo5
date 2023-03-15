@@ -50,7 +50,7 @@
     background-color: #E91E63;
     color: white;
     border: none;
-    
+    z-index: 3;
 }
 
 .direita:hover{
