@@ -56,7 +56,7 @@ function scrollEsq(elementos) {
 function scrollDir(elementos) {
   const right = document.querySelector("." + elementos);
   right.scrollBy(450, 0);
-  if (right.scrollLeft >= (right.scrollWidth + 550 - document.documentElement.clientWidth)) {
+  if (right.scrollLeft >= (right.scrollWidth + 350 - document.documentElement.clientWidth)) {
       document.getElementById("direito").style.visibility = "hidden";
   } else {
       document.getElementById("direito").style.visibility = "visible";
