@@ -52,12 +52,26 @@ formEl.addEventListener('submit', event => {
         body: JSON.stringify(data),
         redirect: 'follow'
     })
+    //rafa, aqui adicionei o tratamento pra em caso de erro no cadastro aparecer um alert de erro, e não de sucesso
         .then(res => {
-            res.json();
-            alert("Evento inserido com sucesso!");
+            if (!res.ok) {
+                let err = new Error("HTTP status code: " + res.status);
+                err.response = res;
+                err.status = res.status;
+                throw err;
+            }
+            return res.json();
+            // res.json();
+            // alert("Evento inserido com sucesso!");
         })
-        .then(data => console.log(data))
-        .catch(error => console.log(error));
+        .then(data => {
+            alert("Evento inserido com sucesso! ID do evento: " + data._id + ".");
+            window.location.href = "admin.html"; //rafa, aqui adicionei esse comando pra quando finalizar o cadastro voltar automaticamente pra admin
+        })
+        .catch(error => {
+            alert("Falha ao cadastrar o Evento! Verifique os dados (ex: formato data).")
+            console.log(error)
+        });
 
     console.log(JSON.stringify(data))
 });
