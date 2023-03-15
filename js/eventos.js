@@ -24,7 +24,7 @@ function fillArticles(data) {
                 <h2>${listedEvent.name} - ${toLocDate(listedEvent.scheduled)}</h2>
                 <h4>${listedEvent.attractions.join(', ')}</h4>
                 <p>${listedEvent.description}</p>
-                <a class="btn btn-primary btn-modal-reserva" evento="${listedEvent.name}" eventoId="${listedEvent._id}"  >reservar ingresso</a>
+                <a class="btn btn-primary btn-modal-reserva" evento="${listedEvent.name}" eventoId="${listedEvent._id}" lotacao="${listedEvent.number_tickets}" >reservar ingresso</a>
             </article>`
     });
     //criação do evento do botao reserva
