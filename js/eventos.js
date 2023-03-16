@@ -33,7 +33,7 @@ function fillArticles(data) {
         btnModalReserva[index].onclick = () => {
             $('#modalReserva').modal();
             let tituloModal = document.getElementById("exampleModalLabel");
-            tituloModal.textContent = `Reserva para o evento: ${btnModalReserva[index].getAttribute("evento")}`;
+            tituloModal.innerHTML = `Reserva para o evento: <b>${btnModalReserva[index].getAttribute("evento")}</b>`;
             let eventoId = document.getElementById("eventoId");
             eventoId.value = btnModalReserva[index].getAttribute("eventoId");
         }
