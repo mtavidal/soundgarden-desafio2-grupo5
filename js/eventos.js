@@ -84,4 +84,16 @@ formModal.addEventListener('submit', event => {
     });
 });
 
+function validaEmail(field) { // validar email
+    const email = field.value;
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (emailRegex.test(email)) {
+        document.getElementById('msgemail').innerHTML = '';
+        //alert('E-mail válido');
+    } else {
+        document.getElementById('msgemail').innerHTML = '<font color="red">E-mail inválido</font>';
+        //alert('E-mail inválido');
+    }
+}
+
 listEvents();

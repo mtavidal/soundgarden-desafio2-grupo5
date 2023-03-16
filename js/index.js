@@ -33,14 +33,13 @@ function listEvents() {
     const endpoint = 'https://soundgarden-api.vercel.app/events';
     fetch(endpoint, { redirect: 'follow' })
         .then(res => res.json())
-        .then(data => fillArticles(data.slice(0, 6)))
+        .then(data => fillArticles(data))
         .catch(error => console.log(error));
 }
 
 function fillArticles(data) {
     const articlesContainer = document.querySelector('#lista3eventos');
     const dataSorted = data.sort(ordernarDatas);
-    console.log(dataSorted);
     dataSorted.slice(0, 6).forEach(listedEvent => {
         if(compararDatas(toLocDate(listedEvent.scheduled))){
             articlesContainer.innerHTML +=
@@ -114,10 +113,10 @@ function validaEmail(field) { // validar email
     const email = field.value;
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (emailRegex.test(email)) {
-        document.getElementById('msgemail').innerHTML = 'E-mail válido';
-        alert('E-mail válido');
+        document.getElementById('msgemail').innerHTML = '';
+        //alert('E-mail válido');
     } else {
         document.getElementById('msgemail').innerHTML = '<font color="red">E-mail inválido</font>';
-        alert('E-mail inválido');
+        //alert('E-mail inválido');
     }
 }

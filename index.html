@@ -144,7 +144,8 @@
                         <div class="mb-3modal">
                             <label for="email" class="form-label">Email</label>
                             <input type="email" class="form-control" id="email" aria-describedby="email"
-                                onblur="validaEmail(f1.email)" maxlength="60" size='65'>
+                                onblur="validaEmail(this)" maxlength="60" size='65'>
+                            <span id="msgemail"></span>
                         </div>
                         <div class="mb-3modal">
                             <label for="tickets" class="form-label">Número de ingressos</label>
