@@ -1,4 +1,4 @@
-function toLocDate(isoDate) {
+function toLocDate(isoDate) {  // pegar a data formatada 
     const date = new Date(isoDate);
     return date.toLocaleDateString('pt-BR');
 }
@@ -30,14 +30,11 @@ function ordernarDatas(a,b){
 
 
 function listEvents() {
-    let endpoint = 'https://soundgarden-api.vercel.app/events'
+    const endpoint = 'https://soundgarden-api.vercel.app/events';
     fetch(endpoint, { redirect: 'follow' })
-        .then(res => {
-            return res.json();
-        })
-        .then(data => fillArticles(data))
-        .catch(error => console.log(error))
-
+        .then(res => res.json())
+        .then(data => fillArticles(data.slice(0, 6)))
+        .catch(error => console.log(error));
 }
 
 function fillArticles(data) {
@@ -55,45 +52,44 @@ function fillArticles(data) {
                     <a class="btn btn-primary btn-modal-reserva" evento="${listedEvent.name}" eventoId="${listedEvent._id}" >reservar ingresso</a>
                 </article>`
         }
+
     });
-    //criação do evento do botao reserva
-    const btnModalReserva = document.getElementsByClassName("btn-modal-reserva");
-    for (let index = 0; index < btnModalReserva.length; index++) {
-        btnModalReserva[index].onclick = () => {
+
+
+    const btnModalReserva = document.getElementsByClassName('btn-modal-reserva');  //Criar o botao pata fazer as reservas
+    Array.from(btnModalReserva).forEach(btn => {
+        btn.onclick = () => {
             $('#modalReserva').modal();
-            let tituloModal = document.getElementById("exampleModalLabel");
-            tituloModal.innerHTML = `Reserva para o evento: <b>${btnModalReserva[index].getAttribute("evento")}</b>`;
-            let eventoId = document.getElementById("eventoId");
-            eventoId.value = btnModalReserva[index].getAttribute("eventoId");
-        }
-    }
+            const tituloModal = document.getElementById('exampleModalLabel');
+            tituloModal.innerHTML = `Reserva para o evento: <b>${btn.getAttribute('evento')}</b>`;
+            const eventoId = document.getElementById('eventoId');
+            eventoId.value = btn.getAttribute('eventoId');
+        };
+    });
 }
 
-//codigo para fazer reserva
-let formModal = document.getElementById("formModal");
-
+// fazer reserva
+const formModal = document.getElementById('formModal');  // fazer reserva
 formModal.addEventListener('submit', event => {
     event.preventDefault();
-    const endpoint = "https://soundgarden-api.vercel.app/bookings";
-
+    const endpoint = 'https://soundgarden-api.vercel.app/bookings';
     const data = {
-        "event_id": document.getElementById("eventoId").value,
-        "owner_name": document.getElementById("nome").value,
-        "owner_email": document.getElementById("email").value,
-        "number_tickets": document.getElementById("tickets").value
+        event_id: document.getElementById('eventoId').value,
+        owner_name: document.getElementById('nome').value,
+        owner_email: document.getElementById('email').value,
+        number_tickets: document.getElementById('tickets').value,
     };
-
     fetch(endpoint, {
         method: 'POST',
         headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
         },
         body: JSON.stringify(data),
-        redirect: 'follow'
+        redirect: 'follow',
     })
         .then(res => {
             if (!res.ok) {
-                let err = new Error("HTTP status code: " + res.status);
+                const err = new Error(`HTTP status code: ${res.status}`);
                 err.response = res;
                 err.status = res.status;
                 throw err;
@@ -101,15 +97,27 @@ formModal.addEventListener('submit', event => {
             return res.json();
         })
         .then(data => {
-            alert("Reserva realizada com sucesso! ID reserva: " + data._id + ".");
-            $('#modalReserva').modal("hide");
+            alert(`Reserva realizada com sucesso! ID reserva: ${data._id}.`);
+            $('#modalReserva').modal('hide');
             formModal.reset();
-
         })
         .catch(error => {
-            alert("Falha ao cadastrar reserva! Verifique seus dados.")
+            alert('Falha ao cadastrar reserva! Verifique seus dados.');
             console.log(error);
         });
 });
 
 listEvents();
+
+
+function validaEmail(field) { // validar email
+    const email = field.value;
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (emailRegex.test(email)) {
+        document.getElementById('msgemail').innerHTML = 'E-mail válido';
+        alert('E-mail válido');
+    } else {
+        document.getElementById('msgemail').innerHTML = '<font color="red">E-mail inválido</font>';
+        alert('E-mail inválido');
+    }
+}
