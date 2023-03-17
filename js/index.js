@@ -101,7 +101,7 @@ formModal.addEventListener('submit', event => {
             formModal.reset();
         })
         .catch(error => {
-            alert('Falha ao cadastrar reserva! Verifique seus dados.');
+            alert('Falha ao cadastrar reserva! Verifique seus dados e disponibilidade de ingressos.');
             console.log(error);
         });
 });
