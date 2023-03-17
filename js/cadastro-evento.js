@@ -37,7 +37,7 @@ formEl.addEventListener('submit', event => {
 
     const data = {
         "name": document.getElementById("nome").value,
-        "poster": "https://media.discordapp.net/attachments/1084089420199755928/1084144639889658027/fiesta.png",
+        "poster": document.getElementById("banner").value,
         "attractions": attractionsList,
         "description": document.getElementById("descricao").value,
         "scheduled": isoDate,
