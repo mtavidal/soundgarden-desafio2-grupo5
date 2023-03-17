@@ -86,7 +86,7 @@
     </footer>
     <!-- Modal -->
     <div class="modal fade" id="modalReserva" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
+        aria-hidden="true" data-backdrop="static">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -97,20 +97,22 @@
                 </div>
                 <div class="modal-body">
                     <form class="col-6" id="formModal">
-                        <div class="mb-3">
+                        <div class="mb-3modal">
                             <label for="nome" class="form-label">Nome </label>
                             <input type="text" class="form-control" id="nome" aria-describedby="nome">
                         </div>
-                        <div class="mb-3">
+                        <div class="mb-3modal">
                             <label for="email" class="form-label">Email</label>
-                            <input type="text" class="form-control" id="email" aria-describedby="email">
+                            <input type="email" class="form-control" id="email" aria-describedby="email"
+                                onblur="validaEmail(this)" maxlength="60" size='65'>
+                            <span id="msgemail"></span>
                         </div>
-                        <div class="mb-3">
+                        <div class="mb-3modal">
                             <label for="tickets" class="form-label">Número de ingressos</label>
                             <input type="number" class="form-control" id="tickets" aria-describedby="tickets">
                         </div>
                         <input type="text" id="eventoId" style="display: none;">
-                        <button type="submit" class="btn btn-primary">enviar</button>
+                        <button type="submit" class="btn btn-primary btnModal">enviar</button>
                     </form>
                 </div>
             </div>

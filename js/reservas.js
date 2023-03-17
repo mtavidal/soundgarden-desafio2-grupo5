@@ -4,6 +4,7 @@ const url_string = window.location.href;
 const url = new URL(url_string);
 const eventId = url.searchParams.get("eventId");
 const nomeEvento = url.searchParams.get("eventName");
+const lotacao = url.searchParams.get("lotacao");
 
 document.addEventListener('DOMContentLoaded', async () => {
     const bookings = await listBookings(eventId);

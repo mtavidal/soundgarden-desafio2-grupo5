@@ -41,6 +41,7 @@ section.full {
 
 article.evento {
     width: 350px;
+    min-height: 600px;
 }
 
 footer nav ul {
@@ -50,4 +51,19 @@ footer nav ul {
 
 footer nav ul li {
     padding: 10px;
+}
+
+
+.mb-3modal {
+    margin-bottom: 1rem!important;
+    width: 460px;
+}
+
+.btnModal{
+    width: 100%;
+    margin: 20px;
+    margin-left: 120px;
+}
+.card{
+    justify-content: space-evenly;
 }
