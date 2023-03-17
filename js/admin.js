@@ -5,7 +5,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     const events = await listEvents();
 
     let localListaEvento = document.getElementsByTagName("tbody")[0];
-    let cont = 0;
     events.forEach(evento => {
 
         localListaEvento.innerHTML += `
