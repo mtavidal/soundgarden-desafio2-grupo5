@@ -1,12 +1,22 @@
-import { listEvents } from "./crud.js";
-import { formataData } from "./util.js";
+function listarEventosPainel() {
+    let endpoint = `https://soundgarden-api.vercel.app/events`
+    fetch(endpoint)
+        .then(response => {
+           return response.json();
+        })
+        .then(data => {
+            preencherListaEventos(data);
+        })
+        .catch(error => {
+            console.error("Requisição falhou com o error: " + error);
+        })
 
-document.addEventListener('DOMContentLoaded', async () => {
-    const events = await listEvents();
+}
 
+function preencherListaEventos(data) {
     let localListaEvento = document.getElementsByTagName("tbody")[0];
-    events.forEach(evento => {
-
+    let cont = 0;
+    data.forEach(evento => { 
         localListaEvento.innerHTML += `
         <tr>
             <th scope="row">${++cont}</th>
@@ -18,6 +28,22 @@ document.addEventListener('DOMContentLoaded', async () => {
                 <a href="editar-evento.html?eventId=${evento._id}" class="btn btn-secondary">editar</a>
                 <a href="excluir-evento.html?eventId=${evento._id}" class="btn btn-danger">excluir</a>
             </td>
-        </tr>`
+        </tr>` 
     });
-});
+}
+
+function formataData(dateString) {
+    let data = new Date(dateString);
+    console.log(data);
+    const result = data.toLocaleDateString("pt-BR", {
+        year: "numeric",
+        month: "2-digit",
+        day: "2-digit",
+        hour: "2-digit",
+        minute: "2-digit"
+    })
+    return result;
+}
+
+listarEventosPainel() 
+
