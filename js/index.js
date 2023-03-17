@@ -1,10 +1,7 @@
-import { toLocDate } from "./util.js";
-import { listEvents, createBooking } from "./crud.js";
-
-document.addEventListener('DOMContentLoaded', async () => {
-    const events = await listEvents();
-
-    console.log(events);
+function toLocDate(isoDate) {  // pegar a data formatada 
+    const date = new Date(isoDate);
+    return date.toLocaleDateString('pt-BR');
+}
 
 function compararDatas(dataEvento){
     let partesData = dataEvento.split("/");
@@ -32,17 +29,29 @@ function ordernarDatas(a,b){
 }
 
 
-    const articlesContainer = document.querySelector('#lista3eventos');
+function listEvents() {
+    const endpoint = 'https://soundgarden-api.vercel.app/events';
+    fetch(endpoint, { redirect: 'follow' })
+        .then(res => res.json())
+        .then(data => fillArticles(data))
+        .catch(error => console.log(error));
+}
 
-    events.slice(0, 3).forEach(listedEvent => {
-        articlesContainer.innerHTML +=
-            `<article class="evento card p-5 m-3">
+function fillArticles(data) {
+    const articlesContainer = document.querySelector('#lista3eventos');
+    const dataSorted = data.sort(ordernarDatas);
+    dataSorted.slice(0, 6).forEach(listedEvent => {
+        if(compararDatas(toLocDate(listedEvent.scheduled))){
+            articlesContainer.innerHTML +=
+                `<article class="evento card p-5 m-3 cardEvento">
                     <img src="${listedEvent.poster}">
                     <h2>${listedEvent.name} - ${toLocDate(listedEvent.scheduled)}</h2>
                     <h4>${listedEvent.attractions.join(', ')}</h4>
                     <p>${listedEvent.description}</p>
-                    <a class="btn btn-primary btn-modal-reserva" evento="${listedEvent.name}" eventoId="${listedEvent._id}"  >reservar ingresso</a>
+                    <a class="btn btn-primary btn-modal-reserva" evento="${listedEvent.name}" eventoId="${listedEvent._id}" >reservar ingresso</a>
                 </article>`
+        }
+
     });
 
 
@@ -56,22 +65,48 @@ function ordernarDatas(a,b){
             eventoId.value = btn.getAttribute('eventoId');
         };
     });
-    //codigo para fazer reserva
-    const formModal = document.getElementById("formModal");
-    
-    formModal.addEventListener('submit', async (e) => {
-        e.preventDefault();
+}
 
-        const bookingToCreate = {
-            "event_id": formModal.eventoId.value,
-            "owner_name": formModal.nome.value,
-            "owner_email": formModal.email.value,
-            "number_tickets": formModal.tickets.value
-        };
+// fazer reserva
+const formModal = document.getElementById('formModal');  // fazer reserva
+formModal.addEventListener('submit', event => {
+    event.preventDefault();
+    const endpoint = 'https://soundgarden-api.vercel.app/bookings';
+    const data = {
+        event_id: document.getElementById('eventoId').value,
+        owner_name: document.getElementById('nome').value,
+        owner_email: document.getElementById('email').value,
+        number_tickets: document.getElementById('tickets').value,
+    };
+    fetch(endpoint, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+        redirect: 'follow',
+    })
+        .then(res => {
+            if (!res.ok) {
+                const err = new Error(`HTTP status code: ${res.status}`);
+                err.response = res;
+                err.status = res.status;
+                throw err;
+            }
+            return res.json();
+        })
+        .then(data => {
+            alert(`Reserva realizada com sucesso! ID reserva: ${data._id}.`);
+            $('#modalReserva').modal('hide');
+            formModal.reset();
+        })
+        .catch(error => {
+            alert('Falha ao cadastrar reserva! Verifique seus dados.');
+            console.log(error);
+        });
+});
 
-        const response = await createBooking(bookingToCreate);
-    });
-});       
+listEvents();
 
 
 function validaEmail(field) { // validar email
