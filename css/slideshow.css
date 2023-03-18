@@ -42,3 +42,7 @@
   .active{
     background-color: #717171;
   }
+
+  .mySlides {
+    transition: .3s ease;
+  }
