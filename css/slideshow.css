@@ -43,7 +43,7 @@
     background-color: #717171;
   }
 
-  .fade {
+  .fade-slide {
    animation-name: fade;
    animation-duration: 1.5s;
   }
