@@ -43,6 +43,12 @@
     background-color: #717171;
   }
 
-  .mySlides {
-    transition: .3s ease;
+  .mySlides{
+    opacity: 1;
+    transition: opacity .5s linear;
+  }
+
+  .mySlides.hide{
+    opacity: 0;
+    pointer-events: none;
   }
